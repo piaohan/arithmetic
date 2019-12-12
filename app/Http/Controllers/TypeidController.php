@@ -37,7 +37,7 @@ class TypeidController extends Controller
             array_push($typeid, '/');
         }
         $arithmetics = [];
-        for ($x = 0; $x <= $ages['sum']; $x++) {
+        for ($x = 1; $x <= $ages['sum']; $x++) {
             $arithmetic = $this->rule($ages['min'], $ages['max'], $typeid);
             array_push($arithmetics, $arithmetic);
         }
