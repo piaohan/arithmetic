@@ -51,7 +51,9 @@ class TypeidController extends Controller
         $min = mt_rand($min, $max);
         $max = mt_rand($min, $max);
         eval("\$res=$min$typeid[$type]$max;");
-
+        if ($typeid[$type]=='-'&&$res<0){
+            $this->rule($min, $max, $typeid);
+        }
         if ($typeid[$type]=='/'&&$min==0){
             $this->rule($min, $max, $typeid);
         }
