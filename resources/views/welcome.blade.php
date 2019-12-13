@@ -23,7 +23,7 @@
                    value="{{old('min')}}">
         </div>
         <div class="form-group">
-            <label for="max">输入需要生成的范围中最大的数(范围:0-100) @component('layouts.element.keyPoint')@endcomponent
+            <label for="max">输入需要生成的范围中最大的数(范围:1-100) @component('layouts.element.keyPoint')@endcomponent
             </label>
             <input type="text" class="form-control" id="max" name="max" placeholder="输入需要生成的范围(0-100)"
                    value="{{old('max')}}">

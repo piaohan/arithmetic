@@ -46,22 +46,48 @@ class TypeidController extends Controller
 
     public function rule($min, $max, $typeid)
     {
+        $arits = [];
+        $arithmetic = $this->rand($min, $max, $typeid);
+        $mins = $arithmetic[0];
+        $types = $arithmetic[1];
+        $maxs = $arithmetic[2];
+        $res = $arithmetic[3];
+        if ($types == '-' && $mins < $maxs) {
+            return $this->rand($min, $max, $typeid);
+        }
+
+        array_push($arits, $mins);
+        array_push($arits, $types);
+        array_push($arits, $maxs);
+        array_push($arits, $res);
+        return $arits;
+    }
+
+    public function rand($min, $max, $typeid)
+    {
         $arithmetic = [];
-        $type = array_rand($typeid, 1);
         $min = mt_rand($min, $max);
+        $type = array_rand($typeid, 1);
         $max = mt_rand($min, $max);
-        eval("\$res=$min$typeid[$type]$max;");
-        if ($typeid[$type]=='-'&&$res<0){
-            $this->rule($min, $max, $typeid);
+        if ($typeid[$type] == "+") {
+            $res = $min + $max;
         }
-        if ($typeid[$type]=='/'&&$min==0){
-            $this->rule($min, $max, $typeid);
+        if ($typeid[$type] == "-") {
+            if ($min < $max) {
+                $temp = $min;
+                $min = $max;
+                $max = $temp;
+            }
+            $res = $min - $max;
         }
-        if ($res<0){
-            $this->rule($min, $max, $typeid);
+        if ($typeid[$type] == "*") {
+            $res = $min * $max;
         }
-        if ($typeid[$type]=='/'){
-            $res=round($res, 2);
+        if ($typeid[$type] == "/") {
+            if ($min == 0) {
+                $min = round(mt_rand($min + 1, $max), 2);
+            }
+            $res = $min / $max;
         }
         array_push($arithmetic, $min);
         array_push($arithmetic, $typeid[$type]);
